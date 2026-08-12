@@ -6,6 +6,8 @@ import { ClerkProvider } from '@clerk/react'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <ClerkProvider>
+      <App />
+    </ClerkProvider>
   </StrictMode>,
-)
+);

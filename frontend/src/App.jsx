@@ -1,12 +1,10 @@
-import './App.css';
-import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/react';
+import "./App.css";
+import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
 
 function App() {
-  
-
   return (
     <div>
-      <h1>My App</h1>
+      <h1>MY APP</h1>
 
       <header>
         <Show when="signed-out">
@@ -18,7 +16,7 @@ function App() {
         </Show>
       </header>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
