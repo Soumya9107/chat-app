@@ -8,6 +8,7 @@ import path from "path";
 
 import { clerkMiddleware } from "@clerk/express";
 import User from "./models/user_model.js";
+import job from "./lib/cron.js";
 import { connectDB } from "./lib/db.js";
 
 const app = express();
