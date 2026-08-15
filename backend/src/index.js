@@ -11,6 +11,7 @@ import User from "./models/user_model.js";
 import job from "./lib/cron.js";
 import { connectDB } from "./lib/db.js";
 import clerkWebHook from "./webhooks/clerk_webhook.js";
+import authRoutes from "./routes/auth_route.js";
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.use(clerkMiddleware());
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "Server is healthy" });
 });
+
+app.use("api/auth", authRoutes);
 
 if (fs.existsSync(publicDir)) {
     app.use(express.static(publicDir));
