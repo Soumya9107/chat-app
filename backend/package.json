@@ -14,6 +14,7 @@
   "type": "module",
   "dependencies": {
     "@clerk/express": "^2.1.52",
+    "@imagekit/nodejs": "^7.11.0",
     "cors": "^2.8.6",
     "cron": "^4.4.0",
     "dotenv": "^17.4.2",
