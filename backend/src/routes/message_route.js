@@ -1,10 +1,15 @@
 import express from "express";
 import { getUsersForSidebar, getConversationsForSidebar } from "../controllers/message_controller.js";
+import { protectRoute } from "../middleware/auth_middleware.js";
+import { upload } from "../middleware/upload_middleware.js";
 
 const router = express.Router();
 
-router.get("/users", protectRoute, getUsersForSidebar);
-router.get("/conversations", protectRoute, getConversationsForSidebar);
-router.get("/:id", protectRoute, getMessages);
+router.use(protectRoute);
+
+router.get("/users", getUsersForSidebar);
+router.get("/conversations", getConversationsForSidebar);
+router.get("/:id", getMessages);
+router.post("/send/:id", upload.single("media") , sendMessage);
 
 export default router;
