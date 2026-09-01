@@ -41,7 +41,7 @@ if (fs.existsSync(publicDir)) {
         res.sendFile(path.join(publicDir, "index.html"), (err) => next(err));
     });
 }
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     connectDB();
     console.log('Server is running on PORT:', PORT);
 
