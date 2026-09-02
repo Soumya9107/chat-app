@@ -13,8 +13,8 @@ import { connectDB } from "./lib/db.js";
 import clerkWebHook from "./webhooks/clerk_webhook.js";
 import authRoutes from "./routes/auth_route.js";
 import messageRoutes from "./routes/message_route.js";
+import { server } from "./lib/socket.js";
 
-const app = express();
 
 const PORT = process.env.PORT;
 const FRONTEND_URL = process.env.FRONTEND_URL;
