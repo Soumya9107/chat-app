@@ -1,3 +1,53 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 @import "./styles/heroui_theme_presets.css";
+
+@custom-variant dark {
+    &:is(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *) {
+        @slot;
+
+        &::before,
+        &::after {
+            @slot;
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+        &:not( :is(.dark,
+                .dark *,
+                [data-theme="dark"],
+                [data-theme="dark"] *,
+                [data-theme="light"],
+                [data-theme="light"] *)) & {
+            @slot;
+
+            &::before,
+            &::after {
+                @slot;
+            }
+        }
+    }
+}
+
+@keyframes auth-float-y {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes auth-shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
