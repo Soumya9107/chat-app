@@ -1,6 +1,7 @@
-import AuthActionPanel from '@/components/auth/AuthActionPanel'
-import AuthHeader from '@/components/auth/AuthHeader'
-import AuthHeroPanel from '@/components/auth/AuthHeroPanel'
+import { AuthActionPanel } from "../components/auth/AuthActionPanel";
+import { AuthHeader } from "../components/auth/AuthHeader";
+import { AuthHeroPanel } from "../components/auth/AuthHeroPanel";
+import { useWallpaper } from "../context/wallpaper";
 
 function AuthPage() {
   const { frameStyle } = useWallpaper();
@@ -14,11 +15,8 @@ function AuthPage() {
           <AuthHeroPanel />
           <AuthActionPanel />
         </main>
-
       </div>
-
     </div>
   );
 }
-
-export default AuthPage
+export default AuthPage;
