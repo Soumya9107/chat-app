@@ -15,11 +15,11 @@ function App() {
   return (
     <ThemeProvider>
       <WallpaperProvider>
-        <Router>
+        <Routes>
           <Route path="/" element={isSignedIn ? <ChatPage /> : <Navigate to={"/auth"} replace />} />
           <Route path="/auth" element={!isSignedIn ? <AuthPage /> : <Navigate to={"/"} replace />} />
 
-        </Router>
+        </Routes>
       </WallpaperProvider>
     </ThemeProvider>
   );
