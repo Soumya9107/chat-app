@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import mongoose from "mongoose";
 import { connectDB } from "../lib/db.js";
-import User from "../models/user.model.js";
+import User from "../models/user_model.js";
 
 const seedUsers = [
     ["seed_alex_chen", "Alex Chen", "alex.chen@example.com", "https://i.pravatar.cc/150?img=1"],
