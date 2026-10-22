@@ -1,5 +1,5 @@
 import express from "express";
-import { getUsersForSidebar, getConversationsForSidebar } from "../controllers/message_controller.js";
+import { getUsersForSidebar, getConversationsForSidebar, getMessages, sendMessage } from "../controllers/message_controller.js";
 import { protectRoute } from "../middleware/auth_middleware.js";
 import { upload } from "../middleware/upload_middleware.js";
 

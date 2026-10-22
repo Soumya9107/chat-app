@@ -21,6 +21,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const publicDir = path.join(process.cwd(), "public");
 
+const app = express();
 app.use("api/webhooks/clerk", express.raw({ type: "application/json" }), clerkWebHook);
 
 app.use(express.json());
