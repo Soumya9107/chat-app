@@ -6,6 +6,7 @@ import AuthPage from './pages/AuthPage';
 import { useAuth } from '@clerk/react';
 import PageLoader from './components/PageLoader';
 import { useAuthStore } from './store/useAuthStore'
+import { useEffect } from "react";
 
 import {Toaster} from 'react-hot-toast';
 
