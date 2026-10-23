@@ -13,16 +13,17 @@ import { connectDB } from "./lib/db.js";
 import clerkWebHook from "./webhooks/clerk_webhook.js";
 import authRoutes from "./routes/auth_route.js";
 import messageRoutes from "./routes/message_route.js";
-import { server } from "./lib/socket.js";
+import { app, server } from "./lib/socket.js";
 
 
-const PORT = process.env.PORT;
-const FRONTEND_URL = process.env.FRONTEND_URL;
+const PORT = process.env.PORT || 3000;
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 const publicDir = path.join(process.cwd(), "public");
 
-const app = express();
-app.use("api/webhooks/clerk", express.raw({ type: "application/json" }), clerkWebHook);
+
+
+app.use("/api/webhooks/clerk", express.raw({ type: "application/json" }), clerkWebHook);
 
 app.use(express.json());
 app.use(cors({ origin: FRONTEND_URL, credentials: true}));
@@ -32,8 +33,8 @@ app.get("/health", (req, res) => {
     res.status(200).json({ message: "Server is healthy" });
 });
 
-app.use("api/auth", authRoutes);
-app.use("api/messages", messageRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
 
 if (fs.existsSync(publicDir)) {
     app.use(express.static(publicDir));
