@@ -7,7 +7,7 @@ const server = http.createServer(app);
 
 const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
 
-const io = new Server(server, { cors: { origin: [allowedOrigin] } });
+const io = new Server(server, { cors: { origin: [allowedOrigin], credentials: true } });
 
 function getReceiverSocketId(userId) { 
     return userSocketMap[userId];
