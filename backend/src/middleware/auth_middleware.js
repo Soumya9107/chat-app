@@ -1,27 +1,39 @@
-import { getAuth } from "@clerk/express";
+import { clerkClient, getAuth } from "@clerk/express";
 import User from "../models/user_model.js";
 
-export async function protectRoute(req, res, next) { 
-        try {
-            const { userId } = getAuth(req);
+export const protectRoute = async (req, res, next) => {
+    try {
+        const { userId } = getAuth(req);
+        if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
-            if (!userId) {
-                res.status(401).json({ message: "Unauthorized" });
-                return;
+        let user = await User.findOne({ clerkId: userId });
+
+        if (!user) {
+            const clerkUser = await clerkClient.users.getUser(userId);
+            try {
+                user = await User.findOneAndUpdate(
+                    { clerkId: userId },
+                    {
+                        $setOnInsert: {
+                            clerkId: userId,
+                            email: clerkUser.emailAddresses[0]?.emailAddress,
+                            fullName: `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim(),
+                            profilePic: clerkUser.imageUrl,
+                        },
+                    },
+                    { upsert: true, returnDocument: "after" }
+                );
+            } catch (err) {
+                // another request created it first
+                if (err.code === 11000) user = await User.findOne({ clerkId: userId });
+                else throw err;
             }
+        }
 
-            const user = await User.findOne({ clerkId: userId });
-
-            if (!user) {
-                res.status(404).json({ message: "User not found" });
-                return;
-            }
-
-            req.user = user;
-
-            next();
-    } catch (error) { 
-        console.error("Error in protectRoute middleware:", error.message);
+        req.user = user;
+        next();
+    } catch (error) {
+        console.log("Error in protectRoute", error.message);
         res.status(500).json({ message: "Internal server error" });
     }
-}
+};
