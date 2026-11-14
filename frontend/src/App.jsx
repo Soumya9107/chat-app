@@ -7,17 +7,28 @@ import { useAuth } from '@clerk/react';
 import PageLoader from './components/PageLoader';
 import { useAuthStore } from './store/useAuthStore'
 import { useEffect } from "react";
+import { axiosInstance } from './lib/axios';
 
 import {Toaster} from 'react-hot-toast';
 
 function App() {
-
-  const { isSignedIn, isLoaded } = useAuth();
+  const { isSignedIn, isLoaded, getToken } = useAuth();
 
   const clearAuth = useAuthStore((state) => state.clearAuth);
   const checkAuth = useAuthStore((state) => state.checkAuth);
   const isCheckingAuth = useAuthStore((state) => state.isCheckingAuth);
 
+  // 1) Attach the Clerk token to every request (must come first)
+  useEffect(() => {
+    const id = axiosInstance.interceptors.request.use(async (config) => {
+      const token = await getToken();
+      if (token) config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    });
+    return () => axiosInstance.interceptors.request.eject(id);
+  }, [getToken]);
+
+  // 2) Then check auth
   useEffect(() => {
     if (!isLoaded) return;
 
@@ -26,12 +37,6 @@ function App() {
   }, [checkAuth, clearAuth, isSignedIn, isLoaded]);
 
   if (!isLoaded || (isSignedIn && isCheckingAuth)) return <PageLoader />;
-
-
-
-  if (!isLoaded) {
-    return <PageLoader />;
-  }
   return (
     <ThemeProvider>
       <WallpaperProvider>
